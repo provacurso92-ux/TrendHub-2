@@ -13,6 +13,7 @@ import { formatDate } from '@/lib/utils';
 
 export function Messages() {
   const [selectedConversationId, setSelectedConversationId] = useState<string | null>(null);
+  const [showChat, setShowChat] = useState(false);
   const [messageText, setMessageText] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const hasMarkedAsReadRef = useRef<Set<string>>(new Set());
@@ -117,7 +118,7 @@ export function Messages() {
 
       <div className="flex-1 flex overflow-hidden">
         {/* Conversations List */}
-        <div className="w-80 border-r border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 overflow-y-auto">
+        <div className={`w-full md:w-80 md:border-r border-zinc-800 ${showChat ? 'hidden md:flex' : 'flex'} flex-col bg-white dark:bg-gray-950 overflow-y-auto`}>
           <div className="p-3">
             <Input
               placeholder="Buscar usuários para conversar..."
@@ -134,6 +135,7 @@ export function Messages() {
                       try {
                         const conv = await createConversation.mutateAsync(u.id);
                         setSelectedConversationId(conv.id);
+                        setShowChat(true);
                         setSearchUsersQuery('');
                       } catch (err) {
                         console.error(err);
@@ -180,7 +182,10 @@ export function Messages() {
                 return (
                   <button
                     key={conv.id}
-                    onClick={() => setSelectedConversationId(conv.id)}
+                    onClick={() => {
+                      setSelectedConversationId(conv.id);
+                      setShowChat(true);
+                    }}
                     className={`w-full p-4 flex items-center gap-3 hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors text-left ${
                       selectedConversationId === conv.id
                         ? 'bg-violet-50 dark:bg-violet-950/20 border-l-4 border-violet-600'
@@ -213,11 +218,23 @@ export function Messages() {
         </div>
 
         {/* Messages Area */}
-        <div className="flex-1 flex flex-col bg-gray-50 dark:bg-gray-900">
+        <div className={`flex-1 flex flex-col bg-gray-50 dark:bg-gray-900 ${showChat ? 'flex' : 'hidden md:flex'}`}>
           {selectedConversationId && otherUser ? (
             <>
               {/* Chat Header */}
               <div className="p-4 bg-white dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800">
+                <div className="flex items-center gap-3 md:hidden mb-3">
+                  <button
+                    type="button"
+                    onClick={() => setShowChat(false)}
+                    className="text-sm font-medium text-violet-600"
+                  >
+                    ← Voltar
+                  </button>
+                  <span className="font-bold text-gray-900 dark:text-gray-100">
+                    {otherUser?.username}
+                  </span>
+                </div>
                 <div className="flex items-center gap-3">
                   <Avatar className="h-10 w-10">
                     <AvatarImage src={otherUser?.avatar_url || ''} />
@@ -253,10 +270,10 @@ export function Messages() {
                         className={`flex ${isSender ? 'justify-end' : 'justify-start'}`}
                       >
                         <div
-                          className={`max-w-xs rounded-2xl px-4 py-2 ${
+                          className={`max-w-[75%] px-4 py-2 rounded-2xl text-sm ${
                             isSender
-                              ? 'bg-violet-600 text-white rounded-tr-none'
-                              : 'bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 rounded-tl-none shadow-sm'
+                              ? 'bg-violet-600 text-white rounded-br-sm'
+                              : 'bg-zinc-800 text-zinc-100 rounded-bl-sm'
                           }`}
                         >
                           {msg.post ? (
@@ -313,7 +330,7 @@ export function Messages() {
               </div>
 
               {/* Input */}
-              <form onSubmit={handleSendMessage} className="p-4 bg-white dark:bg-gray-950 border-t border-gray-200 dark:border-gray-800">
+              <form onSubmit={handleSendMessage} className="shrink-0 p-3 border-t border-zinc-800 bg-white dark:bg-gray-950">
                 <div className="flex gap-2">
                   <Input
                     placeholder="Digite uma mensagem..."
