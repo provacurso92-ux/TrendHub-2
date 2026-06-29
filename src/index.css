@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-primary: 139 92 246;    /* Violeta #8B5CF6 */
+    --color-secondary: 37 99 235;   /* Azul #2563EB */
+    --color-accent: 6 184 212;      /* Ciano #06B8D4 */
+  }
+
+  html.dark {
+    color-scheme: dark;
+  }
+
+  body {
+    @apply antialiased bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100;
+  }
+}
+
+.typing-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #9CA3AF;
+  display: inline-block;
+  animation: typing-bounce 1s infinite ease-in-out;
+  margin: 0 3px;
+}
+
+@keyframes typing-bounce {
+  0%, 60%, 100% { transform: translateY(0); }
+  30% { transform: translateY(-6px); }
+}
+
