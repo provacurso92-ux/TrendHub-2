@@ -1,6 +1,6 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { Home, Search, Users, Trophy, MessageCircle, Bookmark, MoreHorizontal, Settings, Sun, Moon, User, LogOut } from 'lucide-react';
+import { Home, Search, Users, Trophy, Bell, MessageCircle, Bookmark, MoreHorizontal, Settings, Sun, Moon, User, LogOut } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useTheme } from '@/contexts/ThemeContext';
 
@@ -16,6 +16,7 @@ export function MobileSidebar() {
     { icon: Search, label: 'Explorar', path: '/search' },
     { icon: Users, label: 'Comunidades', path: '/communities' },
     { icon: Trophy, label: 'Desafios', path: '/challenges' },
+    { icon: Bell, label: 'Notificações', path: '/notifications' },
     { icon: MessageCircle, label: 'Mensagens', path: '/messages' },
     { icon: Bookmark, label: 'Salvos', path: '/saved' },
   ];

@@ -30,7 +30,8 @@ export function Communities() {
       const { data: membershipsData, error: membershipsError } = await supabase
         .from('community_members')
         .select('community_id')
-        .eq('user_id', user.id);
+        .eq('user_id', user.id)
+        .maybeSingle();
 
       if (membershipsError) throw membershipsError;
 

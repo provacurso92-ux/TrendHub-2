@@ -6,6 +6,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { ImageUpload } from '@/components/ImageUpload';
 import { useCommunities } from '@/hooks/useCommunities';
+import { toast } from 'sonner';
 import { Plus } from 'lucide-react';
 
 const categories = [
@@ -34,7 +35,12 @@ export function CreateCommunityDialog() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!name || !description) {
+    if (name.length < 3 || name.length > 100) {
+      toast.error('Nome deve ter entre 3 e 100 caracteres');
+      return;
+    }
+    if (description.length < 10) {
+      toast.error('Descrição deve ter pelo menos 10 caracteres');
       return;
     }
 

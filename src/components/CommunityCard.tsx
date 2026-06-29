@@ -202,7 +202,10 @@ export function CommunityCard({ community }: CommunityCardProps) {
                       <ConfirmDeleteDialog onConfirm={handleDeleteConfirm}>
                         <button
                           type="button"
-                          onClick={(e) => e.stopPropagation()}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            deleteCommunity.mutate(community.id);
+                          }}
                           className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm text-red-600 hover:bg-gray-100 dark:text-red-400 dark:hover:bg-gray-800"
                         >
                           <Trash2 className="h-4 w-4" />

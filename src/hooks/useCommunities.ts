@@ -83,18 +83,40 @@ export function useCommunities() {
 
   const deleteCommunity = useMutation({
     mutationFn: async (id: string) => {
-      const { error } = await supabase
+      console.log('1. Iniciando delete:', id);
+      console.log('2. User atual:', (await supabase.auth.getUser()).data.user?.id);
+
+      const { error: e1, data: d1 } = await supabase
+        .from('community_posts')
+        .delete()
+        .eq('community_id', id)
+        .select();
+      console.log('3. community_posts:', { error: e1, data: d1 });
+
+      const { error: e2, data: d2 } = await supabase
+        .from('community_members')
+        .delete()
+        .eq('community_id', id)
+        .select();
+      console.log('4. community_members:', { error: e2, data: d2 });
+
+      const { error: e3, data: d3 } = await supabase
         .from('communities')
         .delete()
-        .eq('id', id);
+        .eq('id', id)
+        .select();
+      console.log('5. communities:', { error: e3, data: d3 });
 
-      if (error) throw error;
+      if (e1) throw e1;
+      if (e2) throw e2;
+      if (e3) throw e3;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['communities'] });
       toast.success('Comunidade excluída!');
     },
     onError: (error: any) => {
+      console.log('ERRO FINAL:', JSON.stringify(error));
       toast.error(error.message || 'Erro ao excluir comunidade');
     },
   });
@@ -140,7 +162,7 @@ export function useCommunityMembership(communityId: string) {
         .select('id, role')
         .eq('community_id', communityId)
         .eq('user_id', profile.id)
-        .single();
+        .maybeSingle();
 
       if (error && error.code !== 'PGRST116') throw error;
       return data;
