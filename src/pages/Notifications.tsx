@@ -69,16 +69,17 @@ export function Notifications() {
               <Avatar className="h-10 w-10">
                 <AvatarImage src={notification.actor?.avatar_url || ''} />
                 <AvatarFallback className="bg-violet-600 text-white">
-                  {(notification.actor?.full_name || notification.actor?.username)?.charAt(0) || 'U'}
+                  {notification.actor?.username?.charAt(0).toUpperCase() || '?'}
                 </AvatarFallback>
               </Avatar>
-              <div className="flex-1 min-w-0">
-                <p className="text-sm text-gray-900 dark:text-gray-100">
-                  <span className="font-semibold">{notification.actor?.full_name || notification.actor?.username || 'Alguém'}</span>{' '}
-                  {notification.content}
+
+              <div>
+                <p className="text-sm">
+                  <span className="font-bold">{notification.actor?.username}</span>
+                  {' '}{notification.content}
                 </p>
-                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                  {new Date(notification.created_at).toLocaleString()}
+                <p className="text-xs text-gray-500">
+                  {new Date(notification.created_at).toLocaleString('pt-BR')}
                 </p>
               </div>
             </div>

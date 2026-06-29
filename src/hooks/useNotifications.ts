@@ -13,7 +13,7 @@ export function useNotifications() {
 
       const { data, error } = await supabase
         .from('notifications')
-        .select('*, actor:profiles(*)')
+        .select('*, actor:actor_id(id, username, avatar_url)')
         .eq('user_id', user.id)
         .order('created_at', { ascending: false });
 
