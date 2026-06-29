@@ -168,21 +168,12 @@ export function CreatePostModal({ triggerClassName, triggerSize, triggerChildren
         </Button>
       </DialogTrigger>
       <DialogContent className="max-w-2xl">
-        <div className="flex flex-col max-h-[90vh] overflow-hidden">
-          <div className="flex items-center justify-between p-4 border-b border-zinc-800 shrink-0">
-            <DialogHeader className="p-0">
-              <DialogTitle>Criar Publicação</DialogTitle>
-            </DialogHeader>
-            <button
-              type="button"
-              onClick={() => setOpen(false)}
-              className="text-zinc-600 hover:text-zinc-900 dark:text-zinc-300 dark:hover:text-white"
-            >
-              ×
-            </button>
+        <div className="flex flex-col max-h-[85vh]">
+          <div className="shrink-0 px-6 pt-6 pb-4 border-b border-zinc-800">
+            <h2 className="text-lg font-bold">Criar Publicação</h2>
           </div>
 
-          <div className="flex-1 overflow-y-auto p-4 space-y-4">
+          <div className="flex-1 overflow-y-auto px-6 py-4 space-y-4">
             <div>
               <Label>Conteúdo</Label>
               <Textarea value={content} onChange={(e) => setContent(e.target.value)} rows={4} />
@@ -226,7 +217,6 @@ export function CreatePostModal({ triggerClassName, triggerSize, triggerChildren
                 <div className="mt-2">
                   {previewUrl ? (
                     mediaType === 'image' ? (
-                      // standardized image preview
                       <img src={previewUrl} alt="Preview image" className="w-full h-full object-cover rounded-lg" onError={(e) => { (e.target as HTMLImageElement).src = ''; toast.error('Falha ao carregar imagem'); }} />
                     ) : (
                       (() => {
@@ -297,7 +287,7 @@ export function CreatePostModal({ triggerClassName, triggerSize, triggerChildren
             )}
           </div>
 
-          <div className="shrink-0 p-4 border-t border-zinc-800 flex justify-end gap-2">
+          <div className="shrink-0 px-6 py-4 border-t border-zinc-800 flex justify-end gap-2">
             <Button variant="outline" onClick={() => setOpen(false)} disabled={isSubmitting}>
               Cancelar
             </Button>
