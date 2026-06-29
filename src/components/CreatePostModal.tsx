@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, type ReactNode } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
@@ -9,7 +9,7 @@ import { useUpload } from '@/hooks/useUpload';
 import { usePosts } from '@/hooks/usePosts';
 import { getVideoEmbed, isVideoUrl } from '@/lib/videoUtils';
 import { toast } from 'sonner';
-import { Check, X, Image, Video } from 'lucide-react';
+import { Check, X, Image, Video, Plus } from 'lucide-react';
 
 function isImageUrl(url: string) {
   return /\.(jpg|jpeg|png|gif|webp)(\?.*)?$/i.test(url);
@@ -54,7 +54,13 @@ async function validateUrlIsImage(url: string) {
   }
 }
 
-export function CreatePostModal() {
+interface CreatePostModalProps {
+  triggerClassName?: string;
+  triggerSize?: 'default' | 'sm' | 'lg' | 'icon';
+  triggerChildren?: ReactNode;
+}
+
+export function CreatePostModal({ triggerClassName, triggerSize, triggerChildren }: CreatePostModalProps = {}) {
   const [open, setOpen] = useState(false);
   const [content, setContent] = useState('');
   const [mediaType, setMediaType] = useState<'image' | 'video' | null>(null);
@@ -153,8 +159,12 @@ export function CreatePostModal() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="w-full mt-4" size="lg">
-          <PlusIcon /> Criar Post
+        <Button className={triggerClassName ?? 'w-full mt-4'} size={triggerSize ?? 'lg'}>
+          {triggerChildren ?? (
+            <>
+              <PlusIcon /> Criar Post
+            </>
+          )}
         </Button>
       </DialogTrigger>
       <DialogContent className="max-w-2xl">

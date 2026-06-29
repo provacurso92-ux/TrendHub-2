@@ -23,19 +23,19 @@ export function MobileSidebar() {
 
   return (
     <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-40 border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950">
-      <div className="flex items-center justify-around px-2 py-2">
+      <div className="flex items-center px-1 py-2">
         {navItems.map((item) => (
           <Link
             key={item.path}
             to={item.path}
-            className={`flex flex-col items-center gap-1 px-3 py-2 rounded-xl transition-all ${
+            className={`flex-1 min-w-0 flex flex-col items-center gap-1 py-2 transition-all text-[10px] ${
               isActive(item.path)
                 ? 'text-violet-600 dark:text-violet-400'
                 : 'text-gray-600 dark:text-gray-400'
             }`}
           >
-            <item.icon className="h-6 w-6" />
-            <span className="text-xs font-medium">{item.label}</span>
+            <item.icon className="h-5 w-5" />
+            <span className="truncate max-w-full">{item.label}</span>
           </Link>
         ))}
       </div>
